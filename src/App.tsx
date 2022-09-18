@@ -18,7 +18,7 @@ const App = () => {
 
   const addLine = (canva) => {
     const line = new fabric.Line([0, 100, 200, 200], {
-      left: 100,
+      left: 50,
       top: 50,
       // strokeWidth: 5,
       // width: 150,
@@ -30,7 +30,7 @@ const App = () => {
 
   const addSqu = (canva) => {
     const square = new fabric.Rect({
-      left: 100,
+      left: 150,
       top: 50,
       height: 150,
       width: 150,
@@ -42,7 +42,7 @@ const App = () => {
 
   const addRect = (canva) => {
     const rect = new fabric.Rect({
-      left: 100,
+      left: 250,
       top: 50,
       height: 100,
       width: 200,
@@ -54,8 +54,8 @@ const App = () => {
 
   const addCir = (canva) => {
     const circle = new fabric.Circle({
-      radius: 100,
-      left: 150,
+      radius: 80,
+      left: 350,
       top: 50,
       fill: 'green',
     });
@@ -65,7 +65,7 @@ const App = () => {
 
   const addTri = (canva) => {
     const triangle = new fabric.Triangle({
-      left: 200,
+      left: 450,
       top: 50,
       width: 170,
       height: 200,
