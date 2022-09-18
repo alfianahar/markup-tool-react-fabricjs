@@ -20,8 +20,7 @@ const App = () => {
     const line = new fabric.Line([0, 100, 200, 200], {
       left: 50,
       top: 50,
-      // strokeWidth: 5,
-      // width: 150,
+      strokeWidth: 5,
       stroke: 'red',
     });
     canva.add(line);
