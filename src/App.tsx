@@ -6,25 +6,59 @@ const App = () => {
   const [imgURL, setImgURL] = useState("");
 
   useEffect(() => {
-    setCanvas(initCanvas());
+    setCanvas(initCanvas("canvas"));
   }, []);
 
-  const initCanvas = () =>
-    new fabric.Canvas("canvas", {
+  const initCanvas = (id) =>
+    new fabric.Canvas(id, {
       height: 400,
       width: 800,
       backgroundColor: "white",
     });
 
   const addLine = (canva) => {
-    const line = new fabric.Line([0, 100, 200, 200], {
-      left: 50,
-      top: 50,
-      strokeWidth: 5,
-      stroke: "red",
-    });
-    canva.add(line);
-    canva.renderAll();
+    let line;
+    let mouseDown = false;
+
+    const startLine = (e) => {
+      mouseDown = true;
+
+      let pointer = canva.getPointer(e.e);
+
+      line = new fabric.Line([pointer.x, pointer.y, pointer.x, pointer.y], {
+        strokeWidth: 5,
+        stroke: "red",
+        selectable: true,
+      });
+
+      canva.add(line);
+      canva.requestRenderAll();
+    };
+
+    const drawLine = (e) => {
+      if (mouseDown === true) {
+        let pointer = canva.getPointer(e.e);
+        line.set({
+          x2: pointer.x,
+          y2: pointer.y,
+        });
+
+        canva.requestRenderAll();
+      }
+    };
+
+    const stopLine = (e) => {
+      line.setCoords();
+      mouseDown = false;
+      // setLineButton(false);
+      canva.off("mouse:down", startLine);
+      canva.off("mouse:move", drawLine);
+      canva.off("mouse:up", stopLine);
+    };
+
+    canva.on("mouse:down", startLine);
+    canva.on("mouse:move", drawLine);
+    canva.on("mouse:up", stopLine);
   };
 
   const addSqu = (canva) => {
@@ -87,9 +121,8 @@ const App = () => {
 
   const addImg = (e, url, canva) => {
     e.preventDefault();
-    new fabric.Image.fromURL(url, (img) => {
+    new fabric.Image.fromURL(url, () => {
       // img.scale(0.75);
-
       canva.renderAll();
       setBackground(imgURL, canva);
       setImgURL("");
@@ -110,10 +143,6 @@ const App = () => {
   };
 
   const handleKeyDown = (e) => {
-    // debugger;
-    // console.log(e.target);
-    // console.log(e.keyCode);
-    // e.preventDefault();
     if (e.keyCode == 46) {
       del();
     }
@@ -125,6 +154,10 @@ const App = () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
+
+  // canvas.on("mouse:move", (e) => {
+  //   console.log(e);
+  // });
 
   return (
     <div>
