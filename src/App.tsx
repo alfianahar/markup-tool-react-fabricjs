@@ -4,6 +4,7 @@ import { fabric } from "fabric";
 const App = () => {
   const [canvas, setCanvas] = useState("");
   const [imgURL, setImgURL] = useState("");
+  // const [drawButton, setDrawButton] = useState(true);
 
   useEffect(() => {
     setCanvas(initCanvas("canvas"));
@@ -15,6 +16,49 @@ const App = () => {
       width: 800,
       backgroundColor: "white",
     });
+
+  const modes = {
+    draw: "draw",
+  };
+  let currentMode = modes.draw;
+  const isDraw = (canva) => {
+    // setDrawButton(!drawButton);
+    // console.log(drawButton);
+    console.log(currentMode);
+
+    const startDraw = (e) => {
+      // canva.isDrawingMode = true;
+      // canva.renderAll;
+    };
+
+    const moveDraw = (e) => {
+      if (currentMode !== modes.draw) {
+        canva.isDrawingMode = true;
+        canva.renderAll;
+      } else {
+        canva.isDrawingMode = false;
+      }
+    };
+
+    const stopDraw = (e) => {};
+
+    if (currentMode === modes.draw) {
+      currentMode = "";
+      canva.isDrawingMode = false;
+      canva.renderAll;
+    } else {
+      currentMode = modes.draw;
+    }
+    canva.on("mouse:down", startDraw);
+    canva.on("mouse:move", moveDraw);
+    canva.on("mouse:up", stopDraw);
+  };
+  // else {
+  //   canva.isDrawingMode = false;
+  //   canva.off("mouse:down", startDraw);
+  //   canva.off("mouse:move", moveDraw);
+  //   canva.off("mouse:up", stopDraw);
+  // }
 
   const addLine = (canva) => {
     let line;
@@ -30,7 +74,7 @@ const App = () => {
         stroke: "red",
         selectable: true,
       });
-
+      canva.selection = false;
       canva.add(line);
       canva.requestRenderAll();
     };
@@ -44,13 +88,14 @@ const App = () => {
         });
 
         canva.requestRenderAll();
+        canva.setActiveObject(line);
       }
     };
 
     const stopLine = (e) => {
       line.setCoords();
       mouseDown = false;
-      // setLineButton(false);
+      canva.selection = true;
       canva.off("mouse:down", startLine);
       canva.off("mouse:move", drawLine);
       canva.off("mouse:up", stopLine);
@@ -155,14 +200,11 @@ const App = () => {
     };
   }, []);
 
-  // canvas.on("mouse:move", (e) => {
-  //   console.log(e);
-  // });
-
   return (
     <div>
       <h1>Drawing Tool - React + Fabric.js</h1>
       <button onClick={() => del()}>Delete</button>
+      <button onClick={() => isDraw(canvas)}>Draw</button>
       <button onClick={() => addLine(canvas)}>Line</button>
       <button onClick={() => addSqu(canvas)}>Square</button>
       <button onClick={() => addRect(canvas)}>Rectangle</button>
