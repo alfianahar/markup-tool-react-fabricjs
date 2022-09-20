@@ -34,6 +34,8 @@ const App = () => {
     const moveDraw = (e) => {
       if (currentMode !== modes.draw) {
         canva.isDrawingMode = true;
+        canva.freeDrawingBrush.color = "gray";
+        canva.freeDrawingBrush.width = 15;
         canva.renderAll;
       } else {
         canva.isDrawingMode = false;
