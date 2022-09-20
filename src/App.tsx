@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { fabric } from 'fabric';
+import React, { useState, useEffect } from "react";
+import { fabric } from "fabric";
 
 const App = () => {
-  const [canvas, setCanvas] = useState('');
-  const [imgURL, setImgURL] = useState('');
+  const [canvas, setCanvas] = useState("");
+  const [imgURL, setImgURL] = useState("");
 
   useEffect(() => {
     setCanvas(initCanvas());
   }, []);
 
   const initCanvas = () =>
-    new fabric.Canvas('canvas', {
+    new fabric.Canvas("canvas", {
       height: 400,
       width: 800,
-      backgroundColor: 'white',
+      backgroundColor: "white",
     });
 
   const addLine = (canva) => {
@@ -21,7 +21,7 @@ const App = () => {
       left: 50,
       top: 50,
       strokeWidth: 5,
-      stroke: 'red',
+      stroke: "red",
     });
     canva.add(line);
     canva.renderAll();
@@ -33,7 +33,7 @@ const App = () => {
       top: 50,
       height: 150,
       width: 150,
-      fill: 'gray',
+      fill: "gray",
     });
     canva.add(square);
     canva.renderAll();
@@ -45,7 +45,7 @@ const App = () => {
       top: 50,
       height: 100,
       width: 200,
-      fill: 'yellow',
+      fill: "yellow",
     });
     canva.add(rect);
     canva.renderAll();
@@ -56,7 +56,7 @@ const App = () => {
       radius: 80,
       left: 350,
       top: 50,
-      fill: 'green',
+      fill: "green",
     });
     canva.add(circle);
     canva.renderAll();
@@ -68,10 +68,17 @@ const App = () => {
       top: 50,
       width: 170,
       height: 200,
-      fill: 'blue',
+      fill: "blue",
     });
     canva.add(triangle);
     canva.renderAll();
+  };
+
+  const del = () => {
+    canvas.getActiveObjects().forEach((obj) => {
+      canvas.remove(obj);
+    });
+    canvas.discardActiveObject().renderAll();
   };
 
   // const url =
@@ -84,7 +91,7 @@ const App = () => {
 
       canva.renderAll();
       setBackground(imgURL, canva);
-      setImgURL('');
+      setImgURL("");
     });
   };
 
@@ -93,8 +100,8 @@ const App = () => {
       img.set({
         width: canvas.width,
         height: canvas.height,
-        originX: 'left',
-        originY: 'top',
+        originX: "left",
+        originY: "top",
       });
       canvas.backgroundImage = img;
       canvas.renderAll();
@@ -104,6 +111,7 @@ const App = () => {
   return (
     <div>
       <h1>Markup Tool - React + Fabric.js</h1>
+      <button onClick={() => del()}>Delete</button>
       <button onClick={() => addLine(canvas)}>Line</button>
       <button onClick={() => addSqu(canvas)}>Square</button>
       <button onClick={() => addRect(canvas)}>Rectangle</button>
