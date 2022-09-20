@@ -76,6 +76,7 @@ const App = () => {
 
   const del = () => {
     canvas.getActiveObjects().forEach((obj) => {
+      // console.log(obj);
       canvas.remove(obj);
     });
     canvas.discardActiveObject().renderAll();
@@ -108,9 +109,26 @@ const App = () => {
     });
   };
 
+  const handleKeyDown = (e) => {
+    // debugger;
+    // console.log(e.target);
+    // console.log(e.keyCode);
+    // e.preventDefault();
+    if (e.keyCode == 46) {
+      del();
+    }
+  };
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+
+    return function cleanup() {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   return (
     <div>
-      <h1>Markup Tool - React + Fabric.js</h1>
+      <h1>Drawing Tool - React + Fabric.js</h1>
       <button onClick={() => del()}>Delete</button>
       <button onClick={() => addLine(canvas)}>Line</button>
       <button onClick={() => addSqu(canvas)}>Square</button>
@@ -122,6 +140,7 @@ const App = () => {
         <div>
           <input
             type="text"
+            placeholder="Paste your image URL here"
             value={imgURL}
             onChange={(e) => setImgURL(e.target.value)}
           />
@@ -129,7 +148,9 @@ const App = () => {
         </div>
       </form>
       <br />
-      <canvas id="canvas"> </canvas>
+      <div tabIndex={0} onKeyDown={handleKeyDown}>
+        <canvas id="canvas"></canvas>
+      </div>
     </div>
   );
 };
