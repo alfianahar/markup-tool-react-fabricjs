@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { fabric } from "fabric";
+import ColorPicker from "./ColorPicker";
 
 const App = () => {
   const [canvas, setCanvas] = useState("");
   const [imgURL, setImgURL] = useState("");
-  // const [drawButton, setDrawButton] = useState(true);
+  const [col, setCol] = useState("#000");
 
   useEffect(() => {
     setCanvas(initCanvas("canvas"));
@@ -21,10 +22,9 @@ const App = () => {
     draw: "draw",
   };
   let currentMode = modes.draw;
+
   const isDraw = (canva) => {
-    // setDrawButton(!drawButton);
-    // console.log(drawButton);
-    console.log(currentMode);
+    // console.log(currentMode);
 
     const startDraw = (e) => {
       // canva.isDrawingMode = true;
@@ -34,7 +34,7 @@ const App = () => {
     const moveDraw = (e) => {
       if (currentMode !== modes.draw) {
         canva.isDrawingMode = true;
-        canva.freeDrawingBrush.color = "gray";
+        canva.freeDrawingBrush.color = col;
         canva.freeDrawingBrush.width = 15;
         canva.renderAll;
       } else {
@@ -73,7 +73,7 @@ const App = () => {
 
       line = new fabric.Line([pointer.x, pointer.y, pointer.x, pointer.y], {
         strokeWidth: 5,
-        stroke: "red",
+        stroke: col,
         selectable: true,
       });
       canva.selection = false;
@@ -114,7 +114,7 @@ const App = () => {
       top: 50,
       height: 150,
       width: 150,
-      fill: "gray",
+      fill: col,
     });
     canva.add(square);
     canva.renderAll();
@@ -126,7 +126,7 @@ const App = () => {
       top: 50,
       height: 100,
       width: 200,
-      fill: "yellow",
+      fill: col,
     });
     canva.add(rect);
     canva.renderAll();
@@ -137,7 +137,7 @@ const App = () => {
       radius: 80,
       left: 350,
       top: 50,
-      fill: "green",
+      fill: col,
     });
     canva.add(circle);
     canva.renderAll();
@@ -149,7 +149,7 @@ const App = () => {
       top: 50,
       width: 170,
       height: 200,
-      fill: "blue",
+      fill: col,
     });
     canva.add(triangle);
     canva.renderAll();
@@ -194,13 +194,22 @@ const App = () => {
       del();
     }
   };
+
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
 
+    // const picker = document.getElementById("color-picker");
+
     return function cleanup() {
       document.removeEventListener("keydown", handleKeyDown);
+      // picker.addEventListener("change", handleChange);
     };
   }, []);
+
+  const colorData = (data) => {
+    setCol(data);
+    console.log(data);
+  };
 
   return (
     <div>
@@ -224,6 +233,7 @@ const App = () => {
           <button type="submit">Add Image</button>
         </div>
       </form>
+      <ColorPicker colorData={colorData} />
       <br />
       <div tabIndex={0} onKeyDown={handleKeyDown}>
         <canvas id="canvas"></canvas>
