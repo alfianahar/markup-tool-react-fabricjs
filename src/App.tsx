@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { fabric } from "fabric";
-import ColorPicker from "./ColorPicker";
+import ColorPicker from "./colorPicker";
 
 const App = () => {
   const [canvas, setCanvas] = useState("");
