@@ -29,12 +29,16 @@ const ColorPicker = ({ colorData }) => {
   };
 
   const color = {
-    width: "36px",
-    height: "14px",
+    // width: "36px",
+    // height: "14px",
+    width: "100%",
+    height: "100%",
     borderRadius: "2px",
     background: `rgba(${col.r}, ${col.g}, ${col.b}, ${col.a})`,
   };
   const swatch = {
+    width: "100%",
+    height: "100%",
     padding: "5px",
     background: "#fff",
     borderRadius: "1px",
@@ -56,7 +60,7 @@ const ColorPicker = ({ colorData }) => {
   };
 
   return (
-    <div>
+    <div className="btn-square w-20">
       <div style={swatch} onClick={handleClick}>
         <div style={color} value={hexCol} id="color-picker" />
       </div>

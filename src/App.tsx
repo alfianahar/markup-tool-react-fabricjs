@@ -27,10 +27,7 @@ const App = () => {
   const isDraw = (canva) => {
     // console.log(currentMode);
 
-    const startDraw = (e) => {
-      // canva.isDrawingMode = true;
-      // canva.renderAll;
-    };
+    const startDraw = (e) => {};
 
     const moveDraw = (e) => {
       if (currentMode !== modes.draw) {
@@ -56,12 +53,6 @@ const App = () => {
     canva.on("mouse:move", moveDraw);
     canva.on("mouse:up", stopDraw);
   };
-  // else {
-  //   canva.isDrawingMode = false;
-  //   canva.off("mouse:down", startDraw);
-  //   canva.off("mouse:move", moveDraw);
-  //   canva.off("mouse:up", stopDraw);
-  // }
 
   const addLine = (canva) => {
     let line;
@@ -164,9 +155,6 @@ const App = () => {
     canvas.discardActiveObject().renderAll();
   };
 
-  // const url =
-  //   'https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8&w=1000&q=80';
-
   const addImg = (e, url, canva) => {
     e.preventDefault();
     new fabric.Image.fromURL(url, () => {
@@ -199,11 +187,8 @@ const App = () => {
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
 
-    // const picker = document.getElementById("color-picker");
-
     return function cleanup() {
       document.removeEventListener("keydown", handleKeyDown);
-      // picker.addEventListener("change", handleChange);
     };
   }, []);
 
@@ -213,30 +198,72 @@ const App = () => {
   };
 
   return (
-    <div>
-      <h1>Drawing Tool - React + Fabric.js</h1>
-      <button onClick={() => del()}>Delete</button>
-      <button onClick={() => isDraw(canvas)}>Draw</button>
-      <button onClick={() => addLine(canvas)}>Line</button>
-      <button onClick={() => addSqu(canvas)}>Square</button>
-      <button onClick={() => addRect(canvas)}>Rectangle</button>
-      <button onClick={() => addCir(canvas)}>Circle</button>
-      <button onClick={() => addTri(canvas)}>Triangle</button>
-      <br />
-      <form onSubmit={(e) => addImg(e, imgURL, canvas)}>
-        <div>
-          <input
-            type="text"
-            placeholder="Paste your image URL here"
-            value={imgURL}
-            onChange={(e) => setImgURL(e.target.value)}
-          />
-          <button type="submit">Add Image</button>
-        </div>
-      </form>
-      <ColorPicker colorData={colorData} />
-      <br />
-      <div tabIndex={0} onKeyDown={handleKeyDown}>
+    <div className="flex flex-col justify-center items-center">
+      <h1 className="text-4xl font-mono font-bold text-primary py-6">
+        Drawing Tool - React + Fabric.js
+      </h1>
+      <div className="btn-group py-2">
+        <button className="btn btn-sm btn-error" onClick={() => del()}>
+          Delete
+        </button>
+        <button
+          className="btn btn-sm btn-primary"
+          onClick={() => isDraw(canvas)}
+        >
+          Draw
+        </button>
+        <button
+          className="btn btn-sm btn-primary"
+          onClick={() => addLine(canvas)}
+        >
+          Line
+        </button>
+        <button
+          className="btn btn-sm btn-accent"
+          onClick={() => addSqu(canvas)}
+        >
+          Square
+        </button>
+        <button
+          className="btn btn-sm btn-accent"
+          onClick={() => addRect(canvas)}
+        >
+          Rectangle
+        </button>
+        <button
+          className="btn btn-sm btn-accent"
+          onClick={() => addCir(canvas)}
+        >
+          Circle
+        </button>
+        <button
+          className="btn btn-sm btn-accent"
+          onClick={() => addTri(canvas)}
+        >
+          Triangle
+        </button>
+      </div>
+      <div className="flex w-3/5 py-2 justify-center items-center">
+        <form
+          onSubmit={(e) => addImg(e, imgURL, canvas)}
+          className="form-control w-3/4 mr-2"
+        >
+          <div className="input-group ">
+            <input
+              type="text"
+              placeholder="Paste your image URL here"
+              value={imgURL}
+              className="input input-bordered w-full"
+              onChange={(e) => setImgURL(e.target.value)}
+            />
+            <button type="submit" className="btn btn-secondary">
+              Add Image
+            </button>
+          </div>
+        </form>
+        <ColorPicker colorData={colorData} />
+      </div>
+      <div tabIndex={0} onKeyDown={handleKeyDown} className="p-2">
         <canvas id="canvas"></canvas>
       </div>
     </div>
