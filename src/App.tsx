@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { fabric } from "fabric";
-import ColorPicker from "./colorPicker";
+import ColorPicker from "./ColorPicker";
+import "./app.css";
 
 const App = () => {
-  const [canvas, setCanvas] = useState("");
+  const [canvas, setCanvas] = useState();
   const [imgURL, setImgURL] = useState("");
   const [col, setCol] = useState("#000");
 
@@ -11,7 +12,7 @@ const App = () => {
     setCanvas(initCanvas("canvas"));
   }, []);
 
-  const initCanvas = (id) =>
+  const initCanvas = (id: string) =>
     new fabric.Canvas(id, {
       height: 400,
       width: 800,
@@ -35,7 +36,7 @@ const App = () => {
       if (currentMode !== modes.draw) {
         canva.isDrawingMode = true;
         canva.freeDrawingBrush.color = col;
-        canva.freeDrawingBrush.width = 15;
+        canva.freeDrawingBruash.width = 15;
         canva.renderAll;
       } else {
         canva.isDrawingMode = false;
